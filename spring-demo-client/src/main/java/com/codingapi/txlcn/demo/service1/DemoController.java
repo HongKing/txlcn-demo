@@ -1,7 +1,8 @@
-package com.codingapi.example.client;
+package com.codingapi.txlcn.demo.service1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,8 +22,9 @@ public class DemoController {
     }
 
     @RequestMapping("/txlcn")
-    public String execute(String value) {
-        String result1 = demoService.transactionA();
-        return "DTX A:" + result1 + " | DTX B:" + demoService.execute(value);
+    public String execute(@RequestParam("value") String value) {
+        return  demoService.execute(value);
     }
+
+
 }

@@ -3,9 +3,10 @@ package com.example.demoe;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.EDemoService;
-import com.codingapi.txlcn.commons.annotation.TccTransaction;
-import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.TccTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
+import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,11 +38,11 @@ public class DefaultDemoService implements EDemoService {
     @TccTransaction(confirmMethod = "cm", cancelMethod = "cl", executeClass = DefaultDemoService.class)
     public String rpc(String name) {
         /*
-         * 注意 5.0.0.RC2 请用 DTXLocal 类
-         * 注意 5.0.0.RC2 请自行获取应用名称
-         * 注意 5.0.0.RC2 其它类重新导入包名
+         * 注意 5.0.0 请用 DTXLocal 类
+         * 注意 5.0.0 请自行获取应用名称
+         * 注意 5.0.0 其它类重新导入包名
          */
-
+        log.info("GroupId: {}", TracingContext.tracing().groupId());
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());

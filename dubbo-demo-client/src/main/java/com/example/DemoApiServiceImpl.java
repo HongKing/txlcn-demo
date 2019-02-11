@@ -5,12 +5,10 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.db.mapper.DemoMapper;
 import com.codingapi.example.common.dubbo.DDemoService;
 import com.codingapi.example.common.dubbo.EDemoService;
-import com.codingapi.txlcn.commons.annotation.LcnTransaction;
-import com.codingapi.txlcn.commons.annotation.TxTransaction;
-import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,12 +27,14 @@ public class DemoApiServiceImpl implements DemoApiService {
             application = "${dubbo.application.d}",
             registry = "${dubbo.registry.address}",
             retries = -1,
+            check = false,
             loadbalance = "txlcn_random")
     private DDemoService dDemoService;
 
     @Reference(version = "${demo.service.version}",
             application = "${dubbo.application.e}",
             retries = -1,
+            check = false,
             registry = "${dubbo.registry.address}",
             loadbalance = "txlcn_random")
     private EDemoService eDemoService;
@@ -47,9 +47,9 @@ public class DemoApiServiceImpl implements DemoApiService {
     public String execute(String name) {
 
         /*
-         * 注意 5.0.0.RC2 请用 DTXLocal 类
-         * 注意 5.0.0.RC2 请自行获取应用名称
-         * 注意 5.0.0.RC2 其它类重新导入包名
+         * 注意 5.0.0 请用 DTXLocal 类
+         * 注意 5.0.0 请自行获取应用名称
+         * 注意 5.0.0 其它类重新导入包名
          */
         String dResp = dDemoService.rpc(name);
         String eResp = eDemoService.rpc(name);
